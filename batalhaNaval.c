@@ -136,7 +136,7 @@ void inicializar_habilidade_octaedro(int habilidade[5][5])
                 habilidade[i][j] = 1;
             }
             else if ((i == 1 || i == 3) && (j > 0 && j < 4))
-            {   
+            {
                 habilidade[i][j] = 1;
             }
             else if (i == 2)
@@ -161,9 +161,27 @@ void inicializar_habilidade_cruz(int habilidade[5][5])
             {
                 habilidade[i][j] = 1;
             }
-            else 
+            else
             {
                 habilidade[i][j] = 0;
+            }
+        }
+    }
+}
+
+void posicionar_habilidade(int habilidade[5][5], int tabuleiro[10][10], int linha, int coluna)
+{
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            int tab_i = linha + (i - 2);
+            int tab_j = coluna + (j - 2);
+            bool dentro_do_limite = tab_i >= 0 && tab_i < 10 && tab_j >= 0 && tab_j < 10;
+
+            if (habilidade[i][j] != 0 && dentro_do_limite)
+            {
+                tabuleiro[tab_i][tab_j] = 5;
             }
         }
     }
@@ -202,7 +220,7 @@ int main()
     // Exibindo as habilidades
     printf("Habilidade Cone:\n");
     exibir_habilidade(habilidade_cone);
-    
+
     printf("Habilidade octaedro:\n");
     exibir_habilidade(habilidade_octaedro);
 
@@ -255,25 +273,14 @@ int main()
     }
 
     // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+    // Posicionar habilidade cone no tabuleiro na posição (0, 0)
+    posicionar_habilidade(habilidade_cone, tabuleiro, 0, 0);
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
+    // Posicionar habilidade octaedro no tabuleiro na posição (2, 4)
+    posicionar_habilidade(habilidade_octaedro, tabuleiro, 2, 4);
 
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
-
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    // Posicionar habilidade cruz no tabuleiro na posição (5, 7)
+    posicionar_habilidade(habilidade_cruz, tabuleiro, 5, 7);
 
     // Exibindo o tabuleiro
     exibir_tabuleiro(tabuleiro);
