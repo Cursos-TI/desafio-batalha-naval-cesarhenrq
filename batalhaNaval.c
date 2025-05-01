@@ -30,51 +30,152 @@ void posicionar_navio_diagonal(int tabuleiro[10][10], int linha, int coluna, int
     }
 }
 
-bool pode_posicionar_horizontal(int tabuleiro[10][10], int linha, int coluna, int tamanho) {
-    if (coluna + tamanho > 10) return false;
+bool pode_posicionar_horizontal(int tabuleiro[10][10], int linha, int coluna, int tamanho)
+{
+    if (coluna + tamanho > 10)
+        return false;
 
-    for (int i = 0; i < tamanho; i++) {
-        if (tabuleiro[linha][coluna + i] != 0) return false;
+    for (int i = 0; i < tamanho; i++)
+    {
+        if (tabuleiro[linha][coluna + i] != 0)
+            return false;
     }
 
     return true;
 }
 
-bool pode_posicionar_vertical(int tabuleiro[10][10], int linha, int coluna, int tamanho) {
-    if (linha + tamanho > 10) return false;
+bool pode_posicionar_vertical(int tabuleiro[10][10], int linha, int coluna, int tamanho)
+{
+    if (linha + tamanho > 10)
+        return false;
 
-    for (int i = 0; i < tamanho; i++) {
-        if (tabuleiro[linha + i][coluna] != 0) return false;
+    for (int i = 0; i < tamanho; i++)
+    {
+        if (tabuleiro[linha + i][coluna] != 0)
+            return false;
     }
 
     return true;
 }
 
-void posicionar_horizontal(int tabuleiro[10][10], int linha, int coluna, int tamanho, int valor) {
-    for (int i = 0; i < tamanho; i++) {
+void posicionar_horizontal(int tabuleiro[10][10], int linha, int coluna, int tamanho, int valor)
+{
+    for (int i = 0; i < tamanho; i++)
+    {
         tabuleiro[linha][coluna + i] = valor;
     }
 }
 
-void posicionar_vertical(int tabuleiro[10][10], int linha, int coluna, int tamanho, int valor) {
-    for (int i = 0; i < tamanho; i++) {
+void posicionar_vertical(int tabuleiro[10][10], int linha, int coluna, int tamanho, int valor)
+{
+    for (int i = 0; i < tamanho; i++)
+    {
         tabuleiro[linha + i][coluna] = valor;
     }
 }
 
-void inicializar_tabuleiro(int tabuleiro[10][10]) {
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
+void inicializar_tabuleiro(int tabuleiro[10][10])
+{
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
             tabuleiro[i][j] = 0;
         }
     }
 }
 
-void exibir_tabuleiro(int tabuleiro[10][10]) {
+void exibir_tabuleiro(int tabuleiro[10][10])
+{
     printf("Tabuleiro:\n");
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
             printf("%d ", tabuleiro[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void inicializar_habilidade_cone(int habilidade[5][5])
+{
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+
+            if (i == 2 && j == 2)
+            {
+                habilidade[i][j] = 1;
+            }
+            else if (i == 3 && j > 0 && j < 4)
+            {
+                habilidade[i][j] = 1;
+            }
+            else if (i == 4 && j >= 0 && j <= 4)
+            {
+                habilidade[i][j] = 1;
+            }
+            else
+            {
+                habilidade[i][j] = 0;
+            }
+        }
+    }
+}
+
+void inicializar_habilidade_octaedro(int habilidade[5][5])
+{
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            if ((i == 0 || i == 4) && j == 2)
+            {
+                habilidade[i][j] = 1;
+            }
+            else if ((i == 1 || i == 3) && (j > 0 && j < 4))
+            {   
+                habilidade[i][j] = 1;
+            }
+            else if (i == 2)
+            {
+                habilidade[i][j] = 1;
+            }
+            else
+            {
+                habilidade[i][j] = 0;
+            }
+        }
+    }
+}
+
+void inicializar_habilidade_cruz(int habilidade[5][5])
+{
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            if (i == 2 || j == 2)
+            {
+                habilidade[i][j] = 1;
+            }
+            else 
+            {
+                habilidade[i][j] = 0;
+            }
+        }
+    }
+}
+
+void exibir_habilidade(int habilidade[5][5])
+{
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            printf("%d ", habilidade[i][j]);
         }
         printf("\n");
     }
@@ -86,9 +187,27 @@ int main()
     int tabuleiro[10][10];
     int tamanho_navio = 3;
     int valor_navio = 3;
+    int habilidade_cone[5][5];
+    int habilidade_octaedro[5][5];
+    int habilidade_cruz[5][5];
 
     // Inicializando o tabuleiro com água (0)
     inicializar_tabuleiro(tabuleiro);
+
+    // Inicializando as habilidades
+    inicializar_habilidade_cone(habilidade_cone);
+    inicializar_habilidade_octaedro(habilidade_octaedro);
+    inicializar_habilidade_cruz(habilidade_cruz);
+
+    // Exibindo as habilidades
+    printf("Habilidade Cone:\n");
+    exibir_habilidade(habilidade_cone);
+    
+    printf("Habilidade octaedro:\n");
+    exibir_habilidade(habilidade_octaedro);
+
+    printf("Habilidade Cruz:\n");
+    exibir_habilidade(habilidade_cruz);
 
     // Posicionar navio 1 na posição (0, 0) horizontal
     if (pode_posicionar_horizontal(tabuleiro, 0, 0, tamanho_navio))
@@ -123,7 +242,6 @@ int main()
     {
         printf("Não é possível posicionar o navio 3 na posição (2, 2) diagonal.\n");
     }
-    
 
     // Posicionar navio 4 na posição (5, 5) diagonal
     if (pode_posicionar_diagonal(tabuleiro, 5, 5, tamanho_navio))
@@ -135,7 +253,6 @@ int main()
     {
         printf("Não é possível posicionar o navio 4 na posição (5, 5) diagonal.\n");
     }
-    
 
     // Nível Mestre - Habilidades Especiais com Matrizes
     // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
